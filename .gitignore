@@ -1,0 +1,12 @@
+# LaTeX
+*.log
+*.aux
+*.blg
+*.fdb_latexmk
+*.fls
+*.out
+*.synctex.gz
+*.bbl
+
+# Temporary files
+*.swp

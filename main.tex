@@ -1,0 +1,1736 @@
+\documentclass[10pt,landscape]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{multicol}
+\usepackage{calc}
+\usepackage{ifthen}
+\usepackage[portrait]{geometry}
+\usepackage{amsmath,amsthm,amsfonts,amssymb}
+\usepackage{mathtools}
+\usepackage{color,graphicx,overpic}
+\usepackage{hyperref}
+\usepackage{enumerate}
+\usepackage{etoolbox} % Required for \appto.
+\usepackage{centernot}
+
+\usepackage{xargs}
+
+\usepackage{ifthen}
+
+% Define emphasis to be bold face and italic.
+\DeclareTextFontCommand{\emph}{\bfseries\em}
+
+% Removes most of whitespace above and below equations.
+\newcommand{\zerodisplayskips}{%
+  \setlength{\abovedisplayskip}{-5pt}% Default: 12pt plus 3pt minus 9pt
+  \setlength{\belowdisplayskip}{3pt}% Default: 0pt plus 3pt
+  \setlength{\abovedisplayshortskip}{-5pt}% Default: 12pt plus 3pt minus 9pt
+  \setlength{\belowdisplayshortskip}{3pt}% Default: 7pt plus 3pt minus 4pt
+}
+\appto{\normalsize}{\zerodisplayskips}
+\appto{\small}{\zerodisplayskips}
+\appto{\footnotesize}{\zerodisplayskips}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Theorem Environment Setup %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{amsthm}
+
+% New environments for definitions and theorems. These will let us put in the
+% exact reference to the definition/theorems in the notes, e.g.
+%
+% \begin{definition}{5.1.1}
+%     ...
+% \end{definition}
+%
+% to create a definition with title "Definition 5.1.1", referencing the
+% definition with the same number in the notes.
+\newenvironment{definition}[1] {
+    \par\addvspace{\topsep}
+    \noindent\textbf{Definition #1}.
+    \ignorespaces
+}
+
+\newenvironmentx{theorem}[2][\empty] {
+
+    \newcommand{\Title}{Theorem}
+
+    \ifthenelse{ \equal{#2}{\empty} }{
+        % Only one argument supplied, don't need parantheses.
+        \par\addvspace{\topsep}
+        \noindent\textbf{\Title\  #1}.
+        \ignorespaces
+    }{
+        % Two arguments supplied, show in parantheses.
+        \par\addvspace{\topsep}
+        \noindent\textbf{\Title\  #1} (#2).
+        \ignorespaces
+    }
+}
+
+\newenvironmentx{lemma}[2][\empty] {
+
+    \newcommand{\Title}{Lemma}
+
+    \ifthenelse{ \equal{#2}{\empty} }{
+        % Only one argument supplied, don't need parantheses.
+        \par\addvspace{\topsep}
+        \noindent\textbf{\Title\  #1}.
+        \ignorespaces
+    }{
+        % Two arguments supplied, show in parantheses.
+        \par\addvspace{\topsep}
+        \noindent\textbf{\Title\  #1} (#2).
+        \ignorespaces
+    }
+}
+
+
+\newenvironmentx{proposition}[2][\empty] {
+
+    \newcommand{\Title}{Proposition}
+
+    \ifthenelse{ \equal{#2}{\empty} }{
+        % Only one argument supplied, don't need parantheses.
+        \par\addvspace{\topsep}
+        \noindent\textbf{\Title\  #1}.
+        \ignorespaces
+    }{
+        % Two arguments supplied, show in parantheses.
+        \par\addvspace{\topsep}
+        \noindent\textbf{\Title\  #1} (#2).
+        \ignorespaces
+    }
+}
+
+\newenvironmentx{corollary}[2][\empty] {
+
+    \newcommand{\Title}{Corollary}
+
+    \ifthenelse{ \equal{#2}{\empty} }{
+        % Only one argument supplied, don't need parantheses.
+        \par\addvspace{\topsep}
+        \noindent\textbf{\Title\  #1}.
+        \ignorespaces
+    }{
+        % Two arguments supplied, show in parantheses.
+        \par\addvspace{\topsep}
+        \noindent\textbf{\Title\  #1} (#2).
+        \ignorespaces
+    }
+}
+
+\newenvironmentx{remark}[2][\empty] {
+
+    \newcommand{\Title}{Remark}
+
+    \ifthenelse{ \equal{#2}{\empty} }{
+        % Only one argument supplied, don't need parantheses.
+        \par\addvspace{\topsep}
+        \noindent\textbf{\Title\  #1}.
+        \ignorespaces
+    }{
+        % Two arguments supplied, show in parantheses.
+        \par\addvspace{\topsep}
+        \noindent\textbf{\Title\  #1} (#2).
+        \ignorespaces
+    }
+}
+
+\newenvironmentx{example}[2][\empty] {
+
+    \newcommand{\Title}{Example}
+
+    \ifthenelse{ \equal{#2}{\empty} }{
+        % Only one argument supplied, don't need parantheses.
+        \par\addvspace{\topsep}
+        \noindent\textbf{\Title\  #1}.
+        \ignorespaces
+    }{
+        % Two arguments supplied, show in parantheses.
+        \par\addvspace{\topsep}
+        \noindent\textbf{\Title\  #1} (#2).
+        \ignorespaces
+    }
+}
+
+\newenvironmentx{exercise}[2][\empty] {
+
+    \newcommand{\Title}{Exercise}
+
+    \ifthenelse{ \equal{#2}{\empty} }{
+        % Only one argument supplied, don't need parantheses.
+        \par\addvspace{\topsep}
+        \noindent\textbf{\Title\  #1}.
+        \ignorespaces
+    }{
+        % Two arguments supplied, show in parantheses.
+        \par\addvspace{\topsep}
+        \noindent\textbf{\Title\  #1} (#2).
+        \ignorespaces
+    }
+}
+
+\newenvironmentx{question}[2][\empty] {
+
+    \newcommand{\Title}{Question}
+
+    \ifthenelse{ \equal{#2}{\empty} }{
+        % Only one argument supplied, don't need parantheses.
+        \par\addvspace{\topsep}
+        \noindent\textbf{\Title\  #1}.
+        \ignorespaces
+    }{
+        % Two arguments supplied, show in parantheses.
+        \par\addvspace{\topsep}
+        \noindent\textbf{\Title\  #1} (#2).
+        \ignorespaces
+    }
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Commands for Mathematical Typesetting %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Redefine \leq and \geq to something nicer looking:
+\renewcommand{\leq}{\leqslant}
+\renewcommand{\geq}{\geqslant}
+
+% Inner Product:
+\DeclareRobustCommand{\InnerProduct}[2]{
+    \ifmmode
+        \left( #1,#2 \right)
+    \else
+        \GenericError{\space\space\space\space}
+        {Attempting to use \InnerProduct outside of math mode}
+    \fi
+}
+
+% Vector Norm: 
+\DeclareRobustCommand{\Norm}[1]{
+    \ifmmode
+        \left\lVert #1 \right\rVert
+    \else
+        \GenericError{\space\space\space\space}
+        {Attempting to use \Norm outside of math mode}
+    \fi
+}
+
+% Principle Argument of Complex Number:
+\DeclareMathOperator{\Arg}{Arg}
+
+% Principle Branch of Logarithm of Complex Number:
+\DeclareMathOperator{\Log}{Log}
+
+% Image of Function:
+\DeclareMathOperator{\im}{im}
+
+% Real part of complex number:
+\let\Re\relax
+\DeclareMathOperator{\Re}{Re}
+
+% Imaginary part of complex number:
+\let\Im\relax
+\DeclareMathOperator{\Im}{Im}
+
+% Interior of a Curve:
+\DeclareMathOperator{\Int}{Int}
+
+% Exterior of a Curve:
+\DeclareMathOperator{\Ext}{Ext}
+
+% Residue of Function at Singularity:
+\DeclareMathOperator{\Res}{Res}
+
+% Proof Hint:
+\newcommand{\Hint}{\textit{Hint: }}
+
+% This sets page margins to .5 inch if using letter paper, and to 1cm
+% if using A4 paper. (This probably isn't strictly necessary.)
+% If using another size paper, use default 1cm margins.
+\ifthenelse{\lengthtest { \paperwidth = 11in}}
+    { \geometry{top=.5in,left=.5in,right=.5in,bottom=.5in} }
+    {\ifthenelse{ \lengthtest{ \paperwidth = 297mm}}
+        {\geometdry{top=1cm,left=1cm,right=1cm,bottom=1cm} }
+        {\geometry{top=1cm,left=1cm,right=1cm,bottom=1cm} }
+    }
+
+% Turn off header and footer
+\pagestyle{empty}
+
+% Redefine section commands to use less space
+\makeatletter
+\renewcommand{\section}{\@startsection{section}{1}{0mm}%
+                                {-1ex plus -.5ex minus -.2ex}%
+                                {0.5ex plus .2ex}%x
+                                {\normalfont\large\bfseries}}
+\renewcommand{\subsection}{\@startsection{subsection}{2}{0mm}%
+                                {-1explus -.5ex minus -.2ex}%
+                                {0.5ex plus .2ex}%
+                                {\normalfont\normalsize\bfseries}}
+\renewcommand{\subsubsection}{\@startsection{subsubsection}{3}{0mm}%
+                                {-1ex plus -.5ex minus -.2ex}%
+                                {1ex plus .2ex}%
+                                {\normalfont\small\bfseries}}
+\makeatother
+
+% Define BibTeX command
+\def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
+    T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
+
+% Don't print section numbers
+\setcounter{secnumdepth}{0}
+
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0pt plus 0.5ex}
+
+%My Environments
+%\newtheorem{example}[section]{Example}
+% -----------------------------------------------------------------------
+
+\begin{document}
+\raggedright
+\footnotesize
+\begin{multicols}{3}
+
+
+% multicols parameters
+% These lengths are set only within the two main columns
+%\setlength{\columnseprule}{0.25pt}
+\setlength{\premulticols}{1pt}
+\setlength{\postmulticols}{1pt}
+\setlength{\multicolsep}{1pt}
+\setlength{\columnsep}{2pt}
+\setlength{\columnseprule}{0.4pt} % For vertical lines separating columns.
+
+\begin{center}
+     \Large{Complex Analysis} \\
+     \footnotesize{Sebastian Müksch, v1, 2018/19}
+\end{center}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+% Holomorphic Functions %
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Holomorphic Functions}
+
+% Properties of Complex Numbers.
+\begin{lemma}{1.1.14}{}
+
+    Let $z,w \in \mathbb{C}$, then
+
+        \begin{enumerate}[(i)]
+            \setlength{\parskip}{0em}
+            \item $|z| = 0 \Leftrightarrow z = 0$;
+            \item $|\overline{z}|=|z|$;
+            \item $|zw|=|z||w|$;
+            \item $\overline{\overline{z}}=z$;
+            \item $|z|^2 = z\overline{z}$
+            \item $\overline{z + w} = \overline{z} + \overline{w}$;
+            \item $\overline{zw} = (\overline{z})(\overline{w})$;
+            \item $|\Re\!{(z)}| \leq |z|$ and $|\Im\!{(z)}| \leq |z|$;
+            \item $\Re\!{(z)} = \displaystyle \frac{z + \overline{z}}{2}$ and $\Im\!{(z)} = \displaystyle \frac{z - \overline{z}}{2i}$
+        \end{enumerate}
+
+\end{lemma}
+
+% Complex Conjugate of Modulus 1 Complex Number.
+\begin{remark}{(unknown)}{}
+
+    Let $z \in \mathbb{C}$. If $|z| = 1$, then $\overline{z} = \displaystyle \frac{1}{z}$.
+
+\end{remark}
+
+% Triangle Inequality.
+\begin{lemma}{1.1.15}{Triangle Inequality}
+
+    Let $z,w \in \mathbb{C}$, then
+
+        \begin{align*}
+            |z + w| \leq |z| + |w|
+        \end{align*}
+
+\end{lemma}
+
+% Reverse Triangle Inequality.
+\begin{lemma}{1.1.16}{Reverse Triangle Inequality}
+
+    Let $z,w \in \mathbb{C}$, then
+
+        \begin{align*}
+             |z - w| \geq ||z| - |w||
+        \end{align*}
+
+\end{lemma}
+
+\begin{proposition}{1.1.19}{}
+
+    Let $z,w \in \mathbb{C} \setminus \{0\}$. Then
+
+        \begin{enumerate}[(i)]
+            \setlength{\parskip}{0em}
+            \item $\arg(zw) = \arg(z) + \arg(w)$ and $\arg(\overline{z}) = -\arg(z)$;
+            \item $\Arg(zw) = \Arg(z) + Arg(w) + 2k\pi$ and $\Arg(\overline{z}) = -\Arg(z) + 2m\pi$, $k,m \in \mathbb{Z}$.
+        \end{enumerate}
+
+\end{proposition}
+
+% Criterion to Determine Non-Holomorphicity.
+\begin{theorem}{1.4.5}{Cauchy-Riemann Equations}
+
+    Let $z_0 = z_0 + iy_0 \in \mathbb{C}$, $U \subseteq \mathbb{C}$ a neighbourhood of $z_0$ and $f: U \to \mathbb{C}$ differentiable at $z_0$, where $f = u + iv$. Then
+
+        \begin{align*}
+            \frac{\partial u}{\partial x}(x_0,y_0) &= \frac{\partial v}{\partial y}(x_0,y_0), \\
+            \frac{\partial v}{\partial x}(x_0,y_0) &= -\frac{\partial u}{\partial y}(x_0,y_0)
+        \end{align*}
+
+\end{theorem}
+
+%
+\begin{theorem}{1.4.6}{}
+
+    Let $z_0 = z_0 + iy_0 \in \mathbb{C}$, $U \subseteq \mathbb{C}$ a neighbourhood of $z_0$ and $f: U \to \mathbb{C}$ with $f = u + iv$. If $u,v$ are \emph{continuously differentiable}, i.e. derivatives exist and are continuous, on a neighbourhood of $(x_0,y_0)$ and satisfy the Cauchy-Riemann equations at $(x_0,y_0)$, then $f$ is differentiable at $z_0$.
+
+\end{theorem}
+
+% Square of Modulus is Nowhere Holomorphic.
+\begin{example}{1.4.11}{}
+
+    $|z|^2$ is differentiable only at the origin and \emph{nowhere} holomorphic.
+
+\end{example}
+
+% Holomorphic Functions Emit Harmonic Functions as Real and Imaginary Parts.
+\begin{lemma}{1.4.13}{}
+
+    Let $u,v: \mathbb{R}^2 \to \mathbb{R}$ be twice continuously differentiable, i.e. all second partial derivatives exist and are continuous. If $f(x + iy) = u(x,y) + iv(x,y)$ is holomorphic on $\mathbb{C}$, then $u,v$ are harmonic.
+
+\end{lemma}
+
+% Rational Functions are Holomorphic Where Denominator is Non-Zero.
+\begin{lemma}{1.5.6}{}
+
+    Let $P,Q: \mathbb{C} \to \mathbb{C}$ be polynomials. Then rational function $R = P/Q$ is holomorphic on $\{z \in \mathbb{C}: Q(z) \neq 0\}$.
+
+\end{lemma}
+
+% Trigonometric Identities Relating to Sums of Complex Numbers.
+\begin{lemma}{1.6.6}{}
+
+    Let $z,w \in \mathbb{C}$. Then
+
+        \begin{enumerate}[(i)]
+            \setlength{\parskip}{0em}
+            \item $\sin(z + \pi/2) = \cos(z)$;
+            \item $\sin(z + w) = \sin(z)\cos(w) + \cos(z)\sin(w)$;
+            \item $\cos(z + w) = \cos(z)\cos(w) - \sin(z)\sin(w)$
+        \end{enumerate}
+
+\end{lemma}
+
+% Trigonometric and Hyperbolic Decomposition of Sine and Cosine. 
+\begin{lemma}{1.6.7}{}
+
+    Let $z = x + iy \in \mathbb{C}$. Then
+
+        \begin{align*}
+            &\sin(x + iy) = \sin(x)\cosh(y) + i\cos(x)\sinh(y), \\
+            &\cos(x + iy) = \cos(x)\cosh(y) - i\sin(x)\sinh(y)
+        \end{align*}
+
+\end{lemma}
+
+% Relationship Between Complex Trigonometric and Hyperbolic Functions.
+\begin{lemma}{1.6.10}{}
+
+    \begin{align*}
+        \sinh(iz) = i\sin(z), \quad \cosh(iz) = \cos(z)
+    \end{align*}
+
+\end{lemma}
+
+% Alternate Version of Log and Properties.
+\begin{lemma}{1.7.3}{}
+
+    Let $z,w \in \mathbb{C} \setminus \{0\}$. Then
+
+        \begin{enumerate}[(i)]
+            \setlength{\parskip}{0em}
+            \item $\log(z) =$ $\ln|z| + i\arg(z) =$ $ \{\ln|z| + i\Arg(z) + 2\pi i k: k \in \mathbb{Z}\}$;
+            \item $\log(zw) = \log(z) + \log(w)$;
+            \item $\log(1/z) = -\log(z)$
+        \end{enumerate}
+
+\end{lemma}
+
+% Alternative Form of Complex Power.
+\begin{lemma}{1.8.2}{}
+
+    We can rewrite $z^{\alpha}$ as:
+
+        \begin{align*}
+            z^{\alpha} &= \{\exp(\alpha \ln|z| + i\alpha\Arg(z) + i \alpha 2\pi k): k \in \mathbb{Z}\} \\
+                       &= \{\exp(\alpha \Log(z))\exp(i\alpha 2\pi k) : k \in \mathbb{Z}\}
+        \end{align*}
+
+\end{lemma}
+
+% Number of Values for Complex Power. 
+\begin{theorem}{1.8.3}{}
+
+    Let $\alpha, z \in \mathbb{C}$, $z \neq 0$. Then
+
+        \begin{enumerate}[(i)]
+            \setlength{\parskip}{0em}
+            \item $\alpha \in \mathbb{Z}$ $\Rightarrow$ one value of $z^{\alpha}$;
+            \item $\alpha = p/q$, with $p,q$ coprime integers, $q \neq 0$ $\Rightarrow$ exactly $q$ values of $z^{\alpha}$;
+            \item $\alpha$ irrational or non-real $\Rightarrow$ infinitely many values of $z^{\alpha}$.
+        \end{enumerate}
+
+\end{theorem}
+
+% Adding Complex Powers.
+\begin{lemma}{1.8.8}{}
+
+    Let $\alpha, \beta, z \in \mathbb{C}$, with $z \neq 0$. Then $z^{\alpha}z^{\beta} = z^{\alpha + \beta}$, where principal branch of logarithm is chosen for each power.
+
+\end{lemma}
+
+% Issue with Distributing Complex Powers.
+\begin{exercise}{1.8.11}{}
+
+    Let $z, w, \alpha \in \mathbb{C}$. It is not true in general that $(zw)^{\alpha} = z^{\alpha}w^{\alpha}$, where principal branch is chosen in each case. Consider
+
+\end{exercise}
+
+% Holomorphic Map of Bounded Sets.
+\begin{remark}{(TopHat)}{}
+
+    Let $f: \mathbb{C} \to \mathbb{C}$ be holomorphic. Then $f$ maps bounded sets to bounded sets.
+
+\end{remark}
+
+% Holomorphic Map of Unbounded Sets.
+\begin{remark}{(TopHat)}{}
+
+    Let $f: \mathbb{C} \to \mathbb{C}$ be holomorphic. Then $f$ \emph{does not} map unbounded sets to unbounded sets, consider $f(z) = a_0 \in \mathbb{C}$, i.e. $f(\mathbb{C}) = \{a_0\}$.
+
+\end{remark}
+
+% Bound for Sum of Real and Imaginary Part.
+\begin{question}{Ws.1, Q.7}{}
+
+    Let $z \in \mathbb{C}$, then
+
+        \begin{align*}
+            |z| \leq |\Re\!{(z)}| + |\Im\!{(z)}| \leq \sqrt{2}|z|
+        \end{align*}
+
+\end{question}
+
+% De Moivre's Formula.
+\begin{question}{Ws.2, Q.1}{De Moivre's Formula}
+
+    Let $\theta \in \mathbb{R}, n \in \mathbb{Z}$. Then:
+
+        \begin{align*}
+            \cos(n\theta) + i\sin(n\theta) = (\cos{\theta} + i\sin{\theta})^n
+        \end{align*}
+
+\end{question}
+
+\begin{question}{Ws.2, Q2}{}
+
+    (b) Let $z \in \mathbb{C} \setminus \{0\}$, then $\arg(z^2) \neq 2\arg(z)$ in general, e.g. $z = -1$.
+
+\end{question}
+
+% Properties of Set of Arguments of Complex Number.
+\begin{question}{Ws.2, Q.3}{}
+
+    (b) Let $z \in \mathbb{C} \setminus \{0\}$, then $\arg(1/z) =$ $\arg(\overline{z}) =$ $-\arg(z)$.
+
+\end{question}
+
+% Finite Geometric Series.
+\begin{question}{Ws.2, Q.6}{}
+
+    Let $z \in \mathbb{C}$ and $z \neq 1$, then 
+
+        \begin{align*}
+            \sum_{k=0}^m z^k = \displaystyle \frac{1 - z^{m+1}}{1 - z}
+        \end{align*}
+
+\end{question}
+
+% Modulus Is Not Holomorphic.
+\begin{question}{Ws.3, Q.1}{}
+
+    $f(z) = |z|$ is continuous everywhere on $\mathbb{C}$, but nowhere holomorphic.
+
+\end{question}
+
+% Real-Valued, Holomorphic Function.
+\begin{question}{Ws.3, Q.6}{}
+
+    Let $f$ be real-valued and holomorphic. Then $f$ is constant.
+
+\end{question}
+
+% Holomorphicity and Complex Conjugates.
+\begin{question}{Ws.3, Q.7}{}
+
+    Let $f: \mathbb{C} \to \mathbb{C}$ be holomorphic. Then
+
+        \begin{enumerate}[(a)]
+            \setlength{\parskip}{0em}
+            \item $\overline{f(\overline{z})}$ is holomorphic;
+            \item if $\overline{f(z)}$ is holomorphic, $f$ is constant;
+            \item if $f(\overline{z})$ is holomorphic, $f$ is constant.
+        \end{enumerate}
+
+\end{question}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Conformal Maps and Möbius Transformations %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Conformal Maps and Möbius Transformations}
+
+\begin{theorem}{2.1.2}{}
+
+    Let $U \subseteq \mathbb{C}$ be open and $f: U \to \mathbb{C}$ holomorphic. Then $f$ preserves angles at every $z_0 \in U$ where $f'(z_0) \neq 0$.
+
+\end{theorem}
+
+\begin{remark}{2.2.2}{}
+
+    If $f$ is a Möbius transformation defined by $a,b,c,d \in \mathbb{C}$ and $\lambda \in \mathbb{C}$, then $\lambda a, \lambda b, \lambda c, \lambda d$ define the same Möbius transformation:
+
+        \begin{align*}
+            \frac{\lambda a z + \lambda b}{\lambda c z + \lambda d} = \frac{az + b}{cz + d}
+        \end{align*}
+
+    i.e. we can impose condition $ad - bc = 1$.
+
+\end{remark}
+
+% Matrix Associated with Möbius Transformation.
+\begin{lemma}{2.2.3}{}
+
+    Let $M = \bigl( \begin{smallmatrix} a & b \\ c & d \end{smallmatrix} \bigr)$ with determinant $ad - bc = 1$, then we associate the Möbius transformation $f_M(z) = \frac{az + b}{cz + d}$. Under this correspondence:
+
+        \begin{align*}
+            f_{M_1M_2} = f_{M_1} \circ f_{M_2}, \quad f_{M^{-1}} = f_M^{-1}
+        \end{align*}
+
+\end{lemma}
+
+% Deconstructing Möbius Transformations.
+\begin{theorem}{2.4.2}{}
+
+    Let $f$ be a Möbius transformation. Then $f$ is a composition of a $\emph{finite}$ number of translations, rotations, dilations and if and only if $f$ does \emph{not} fix the point at infinity, one inversion.
+
+\end{theorem}
+
+% Möbius Transformations Map Circlines to Circlines.
+\begin{corollary}{2.4.3}{}
+
+     Möbius transformations map circlines to circlines.
+
+\end{corollary}
+
+% A Möbius Transformation Fixing 3 Points Is The Identity.
+\begin{lemma}{2.5.1}{}
+
+    Let $f$ be a Möbius transformation and $z_2, z_3, z_4 \in \tilde{\mathbb{C}}$ three \emph{distinct} points s.t. $f(z_2)=z_2$, $f(z_3)=z_3$, $f(z_4)=z_4$. Then $f$ is the identity.
+
+\end{lemma}
+
+% Existence of Unique Möbius Transform Sending To 1, 0 and Infinity.
+\begin{theorem}{2.5.2}{}
+
+    Let $z_2, z_3, z_4 \in \tilde{\mathbb{C}}$ be three \emph{distinct} points. Then there exists a \emph{unique} Möbius transformation s.t. $f(z_2)=1$, $f(z_3)=0$, $f(z_4)=\infty$.
+
+\end{theorem}
+
+% Unique Möbius Transform Sending One Triplet To Another.
+\begin{corollary}{2.5.3}{}
+
+    Let $(z_2,z_3,z_4),(w_2,w_3,w_4) \in \tilde{\mathbb{C}}$ be two triplets of \emph{distinct} points. Then there exists a \emph{unique} Möbius transformation $f$ s.t. $f(z_2)=w_2$, $f(z_3)=w_3$, $f(z_4)=w_4$.
+
+\end{corollary}
+
+% Explicit Formulae for Cross-Ratio.
+\begin{remark}{2.5.6}{}
+
+    Let $z_1,z_2,z_3,z_4 \in \mathbb{C}$, then:
+
+        \begin{align*}
+            [z_1,z_2,z_3,z_4] = \frac{z_1 - z_3}{z_1 - z_4} \frac{z_2 - z_4}{z_2 - z_3}
+        \end{align*}
+
+    If one of the $z_i$ is $\infty$, then all terms involving it disappear, e.g.:
+
+        \begin{align*}
+            [z_1,z_2,\infty,z_4] = \frac{z_2 - z_4}{z_1 - z_4}
+        \end{align*}
+
+\end{remark}
+
+% Möbius Transformations Preserve Cross-Ratios.
+\begin{theorem}{2.5.7}{}
+
+    Let $z_1,z_2, z_3, z_4 \in \tilde{\mathbb{C}}$ be distinct and $f$ a Möbius transformation. Then
+
+        \begin{align*}
+            [f(z_1),f(z_2),f(z_3),f(z_4)] = [z_1,z_2,z_3,z_4]
+        \end{align*}
+
+\end{theorem}
+
+\begin{question}{Ws.5, Q.1}{}
+
+    \begin{enumerate}[(a)]
+        \setlength{\parskip}{0em}
+
+        \item $\displaystyle f(z) = \frac{(z-1)}{(z+1)}$:
+
+            \begin{enumerate}[(i)]
+                \setlength{\parskip}{0em}
+                \item $f(\{\Re(z) > 0\}) = D_1(0)$
+                \item $f(D_1(0)) = \{\Re(z) < 0\}$
+            \end{enumerate}
+
+        \item $f(z) = \exp(iz)$:
+
+            \begin{enumerate}[(i)]
+                \setlength{\parskip}{0em}
+                \item $f(\{0 < \Re(z) < \pi\}) =  \{\Im(z) > 0\}$
+                \item $f(\{-\pi/2 < \Re(z) < \pi/2 \,\,\mathrm{and}\, \Im(z) > 0\}) = \{|z|, -\pi/2 < \Arg(z) < \pi/2\}$
+            \end{enumerate}
+
+        \item $f(z) = z^{\frac{1}{2}}$:
+
+            \begin{enumerate}[(i)]
+                \setlength{\parskip}{0em}
+                \item $f(\{\Re(z) > 0\}) = \{-\pi/4 < \Arg(z) < \pi/4\}$
+                \item $f(D_{0,-\pi}) = \{\Re(z) > 0\}$ (preimage is cut plane)
+            \end{enumerate}
+
+    \end{enumerate}
+
+\end{question}
+
+%%%%%%%%%%%%%%%%%%%%%%%
+% Complex Integration %
+%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Complex Integration}
+
+\begin{lemma}{3.2.8}{}
+
+    Let $\Gamma$ be arc of a circle of radius $r$ traced through angle $\theta$. Then $\ell(\Gamma) = r \theta$.
+
+\end{lemma}
+
+% Bound for Complex Integrals.
+\begin{lemma}{3.2.9}{M-L Lemma}
+
+    Let $\Gamma \in \mathbb{C}$ be a regular curve and let $f: \Gamma \to \mathbb{C}$ be \emph{continuous}. Then
+
+        \begin{align*}
+            \left| \int_{\Gamma} f(z) \,dz \right| \leq \ell(\Gamma)\max_{z \in \Gamma}{f(z)}
+        \end{align*}
+
+\end{lemma}
+
+% Partial Derivatives Equal to Zero Implies Constant.
+\begin{lemma}{3.3.2}{}
+
+    Let $D \subseteq \mathbb{C}$ be a domain an suppose $u: D \to \mathbb{R}$ is differentiable and $\frac{\partial u}{\partial x} = 0 = \frac{\partial u}{\partial y}$ on $D$. Then $u$ is constant on $D$.
+
+\end{lemma}
+
+% Complex Integral is Determined By Endpoints at Antiderivative.
+\begin{theorem}{3.3.5}{Fundamental Theorem of Calculus}
+
+    Let $D \subseteq \mathbb{C}$ be a domain, $\Gamma \subseteq D$ contour joining $z_0,z_1 \in D$, $f: D \to \mathbb{C}$ with antiderivative $F$ on $D$. Then
+
+        \begin{align*}
+            \int_{\Gamma} f(z) \,dz = F(z_1) - F(z_0)
+        \end{align*}
+
+\end{theorem}
+
+% Zero Derivative Everywhere Implies Constant Function.
+\begin{corollary}{3.3.6}{}
+
+    Let $D \subseteq \mathbb{C}$ be a domain, $f$ holomorphic on D with $\forall z \in D: f'(z) = 0$. Then $f$ is constant.
+
+\end{corollary}
+
+% Path-Independence Lemma.
+\begin{lemma}{3.3.9}{Path-Independence Lemma}
+
+    Let $D \subseteq \mathbb{C}$ be a domain, $f: D \to \mathbb{C}$ \emph{continuous}. Then the following are equivalent:
+
+        \begin{enumerate}[(i)]
+            \setlength{\parskip}{0em}
+            \item $f$ has an antiderivative on $D$;
+            \item $\int_{\Gamma} f(z)\,dz = 0$ for all closed contours $\Gamma$ on $D$;
+            \item all $\int_{\Gamma} f(z)\,dz$ are independent of path.
+        \end{enumerate}
+
+\end{lemma}
+
+% Curves Partition the Plane.
+\begin{theorem}{3.4.2}{Jordan Curve Theorem}
+
+    Let $\Gamma \subseteq \mathbb{C}$ be a loop. Then $\Gamma$ defines two regions, bounded domain $\Int\!{(\Gamma)}$ and unbounded domain $\Ext\!{(\Gamma)}$, with common boundary $\Gamma$.
+
+\end{theorem}
+
+% Cauchy Integral Theorem.
+\begin{theorem}{3.4.8}{Cauchy Integral Theorem}
+
+    Let $f$ holomorphic inside and on loop $\Gamma$. Then
+
+        \begin{align*}
+            \int_{\Gamma} f(z)\,dz = 0
+        \end{align*}
+
+\end{theorem}
+
+% Antiderivatives on Simply-Connected Domains.
+\begin{corollary}{3.4.9}{}
+
+    Let $D \subseteq \mathbb{C}$ be a \emph{simply-connected} domain, $f$ holomorphic on $D$. Then $f$ has antiderivative on $D$.
+
+\end{corollary}
+
+% Deforming Contours
+\begin{remark}{(unknown)}{}
+
+    Due to Cauchy Integral Theorem, we can deform a contour without changing value of integral, provided we do not cross any point where $f$ is not holomorphic.
+
+\end{remark}
+
+%
+\begin{theorem}{3.4.11}{}
+
+    Let $z_0 \in \mathbb{C}$ and $\Gamma \subseteq \mathbb{C}$ a loop s.t. it does not pass through $z_0$. Then
+
+        \begin{align*}
+            \int_{\Gamma} \frac{1}{z - z_0} =
+                \begin{cases}
+                    2 \pi i & z_0 \in \Int(\Gamma), \\
+                    0 & \mathrm{otherwise}.
+                \end{cases}
+        \end{align*}
+
+\end{theorem}
+
+% Cauchy Integral Formula.
+\begin{theorem}{3.5.1}{Cauchy Integral Formula}
+
+    Let $\Gamma$ be a loop, $z_0 \in \Int{\Gamma}$ and $f$ holomorphic inside and on $\Gamma$. Then
+
+        \begin{align*}
+            f(z_0) = \frac{1}{2\pi i} \int_{\Gamma} \frac{f(z)}{z - z_0} \,dz.
+        \end{align*}
+
+\end{theorem}
+
+% Holomorphic Functions are Infinitely Differentiable.
+\begin{corollary}{3.5.4}{}
+
+    Let $D \subseteq \mathbb{C}$ be a domain and $f$ holomorphic on $D$. Then $f$ is infinitely differentiable on $D$ and all derivatives are holomorphic on $D$.
+
+\end{corollary}
+
+% Generalized Cauchy Integral Formula.
+\begin{theorem}{3.5.5}{Generalized Cauchy Integral Formula}
+
+    Let $\Gamma$ be a loop, $z_0 \in \Int{\Gamma}$ and $f$ holomorphic inside and on $\Gamma$. Then $f$ is infinitely differentiable at $z_0$ and $\forall n \in \mathbb{N}$:
+
+        \begin{align*}
+            f^{(n)}(z_0) = \frac{n!}{2\pi i} \int_{\Gamma} \frac{f(z)}{(z - z_0)^{n+1}} \,dz.
+        \end{align*}
+
+\end{theorem}
+
+% From Continuous to Holomorphic Function.
+\begin{theorem}{3.5.11}{Morera's Theorem}
+
+    Let $D \subseteq \mathbb{C}$ be a domain, $f: D \to \mathbb{C}$ \emph{continuous} s.t. $\int_{\Gamma}f(z) \,dz = 0$ for all loops $\Gamma \subseteq D$. Then $f$ is holomorphic.
+
+
+    \Hint Antiderivative by Path-Independence \& Corollary 3.5.4.
+
+\end{theorem}
+
+% Bounded Holomorphic Implies Bounded Derivatives at Point.
+\begin{theorem}{3.6.1}{}
+
+    Let $D \subseteq \mathbb{C}$ be a domain, $z_0 \in D$ and $R > 0$ s.t. $\overline{D}_R(z_0) \subseteq D$, $f$ holomorphic on $D$ and $M > 0$ s.t. $\forall z \in D: |f(z)| \leq M$. Then $\forall n \in \mathbb{N}$: $\displaystyle |f^{(n)}(z_0)| \leq \frac{n!M}{R^n}$.
+
+    \Hint Generalized Cauchy Integral Formula and Lemma 3.2.9.
+
+\end{theorem}
+
+% Bounded Holomorhpic Functions Must Be Constant.
+\begin{theorem}{3.6.2}{Liouville's Theorem}
+
+    Let $f$ be holomorphic on $\mathbb{C}$ and bounded, i.e. there exists $M>0$ s.t. $\forall z \in \mathbb{C} |f(z)| \leq M$. Then $f$ is constant.
+
+    \Hint Theorem 3.6.1 on circle $\Rightarrow f'(z) = 0 \Rightarrow f$ constant by Corollary 3.3.6.
+
+\end{theorem}
+
+% Lower Bound for Absolute Value of Polynomials.
+\begin{exercise}{3.6.4}{}
+
+    Let $P$ be a (monic) polynomial of degree $N$, then there exists $R > 0$ s.t. $|z| \geq R \Rightarrow |P(z)| \geq \frac{1}{2}|z|^N$.
+
+\end{exercise}
+
+\begin{theorem}{3.7.1}{}
+
+    Let $D \subseteq \mathbb{C}$ be a domain, $z_0 \in D$ and $R > 0$ s.t. $\overline{D}_R{z_0} \subseteq D$ and $f$ holomorphic on $D$. Then
+
+        \begin{align*}
+            f(z_0) = \frac{1}{2\pi} \int_0^{2\pi} f(z_0 + Re^{it}) \,dt
+        \end{align*}
+
+\end{theorem}
+
+% Function Bounded on a Circle is Bounded Equally in the Center.
+\begin{remark}{3.7.2}{}
+
+    If there exists $M > 0$ s.t. $\forall z \in C_R(z_0): |f(z)|$ with requirements of Theorem 3.7.1, then $|f(z_0)| \leq M$.
+
+\end{remark}
+
+% Function on Closed Disc With Maximum at Center Has Constant Modulus.
+\begin{lemma}{3.7.3}{}
+
+    Let $D \subseteq \mathbb{C}$ be a domain, $z_0 \in D$ and $R > 0$ s.t. $\overline{D}_R(z_0) \subseteq D$, $f$ holomorphic on $D$ s.t. $\max_{z \in \overline{D}_R(z_0)}{|f(z)|} = |f(z_0)|$. Then $|f(z)|$ is constant on $\overline{D}_R(z_0)$.
+
+\end{lemma}
+
+% Constant Modulus of Holomorphic Function Implies Constant Function.
+\begin{exercise}{3.7.4}{}
+
+    Let $D \subseteq \mathbb{C}$ be a domain, $f$ holomorphic on $D$ s.t. $|f(z)|$ is constant on $D$. Then $f$ is constant on $D$.
+
+\end{exercise}
+
+% Non-Constant Holomorphic Functions Cannot Achieve Maximum In Interior.
+\begin{theorem}{3.7.5}{Maximum Modulus Principle}
+
+    Let $D \subseteq \mathbb{C}$ be a domain, $f$ holomorphic \emph{and bounded} on $D$, i.e. $|f(z)| \leq M$ for $M > 0$. If $|f(z)|$ achieves maximum at $z_0 \in D$, then $f$ is constant.
+
+\end{theorem}
+
+% Holomorphic Functions Attain Maximum On Domain Boundaries.
+\begin{remark}{3.7.6}{}
+
+    A holomorphic function on a bounded domain, continuous up to and including the boundary, attains maximum on the boundary.
+
+\end{remark}
+
+\begin{theorem}{3.7.8}{Maximum/minimum Principle for Harmonic Functions}
+
+    Let $D \subseteq \mathbb{R}^2$ be a domain, $\phi: D \to \mathbb{R}$ be harmonic s.t. $\phi$ is bounded above or below on $D$ by $M > 0$ and $\exists z_0 \in D: \phi(z_0) = M$. Then $\phi$ is constant on $D$.
+
+\end{theorem}
+
+% Limit of Maximum Forcing Identically Zero.
+\begin{question}{Ws.7, Q.5}{}
+
+    Let $f$ be holomorphic on $D_1(0)$ s.t. $\max_{z \in C_r(0)}{|f(z)|} \to 0$ as $r \to 1$, then $f = 0$.
+
+\end{question}
+
+\begin{question}{Ws.8, Q.2}{}
+
+    Let $f$ be holomorphic on $\mathbb{C}$ s.t. $|f| \to 0$ as $|z| \to \infty$. Then $\forall z \in \mathbb{C}: f(z) = 0$.
+
+\end{question}
+
+\begin{question}{Ws.8, Q.3}{}
+
+    Let $f$ be holomorphic on $\mathbb{C}$ and periodic in real and imaginary directions, i.e. $\exists a_0,b_0 > 0 \forall z \in \mathbb{C}: f(z) = f(z + z_0)$ and $f(z) = f(z + ib_0)$. Then $f$ is constant.
+
+    \Hint $f$ is determined by values within rectangle, so bounded. Then Liouville's Theorem.
+
+\end{question}
+
+% Real and Imaginary Parts of Non-Constant Holomorphic Functions are Unbound.
+\begin{question}{Ws.8, Q.4}{}
+
+    Let $f$ be holomorphic on $\mathbb{C}$. If $\Re(f(z))$ \emph{or} $\Im(f(z))$ are bound below \emph{or} above for all $z \in \mathbb{C}$, then $f$ is constant.
+
+\end{question}
+
+% Holomorphic Functions Bound by Polynomial Eventually Have Zero Derivatives.
+\begin{question}{Ws.8, Q.5}{}
+
+    Let $f$ be holomorphic on $\mathbb{C}$ s.t. for some integer $N \geq 1$ there exists $C > 0$ s.t. $|f(z)| \leq C|z|^N$ for all $z \in \mathbb{C}$. Then $f^(n)(z) = 0$ for all $z \in \mathbb{C}$, for all $n \geq N + 1$.
+
+\end{question}
+
+% Functions with Modulus Tending to Infinity as Argument Does Are Surjective.
+\begin{question}{Ws.8, Q.6}{}
+
+    Suppose $f$ is holomorphic on $\mathbb{C}$ s.t. $|f(z)| \to \infty$ as $|z| \to \infty$. Then $f$ is surjective.
+
+\end{question}
+
+\begin{question}{Ws.9, Q.4}{}
+
+    Let $f$ be holomorphic on $\mathbb{C}$ s.t. there exists $C > 0$ s.t. $|f(z)| \leq C|z|^2$ for all $z \in \mathbb{C}$. Then $f(z) = cz^2$ for some $c \in \mathbb{C}$ s.t. $|c| \leq C$.
+
+\end{question}
+
+%%%%%%%%%%%%%%%%%%%
+% Infinite Series %
+%%%%%%%%%%%%%%%%%%%
+
+\section{Infinite Series}
+
+% Divergent Series Test.
+\begin{lemma}{4.1.2}{}
+
+    Let $\sum_{j=0}^{\infty}z_j$ be a convergent series. Then $z_j \to 0$ as $j \to \infty$.
+
+\end{lemma}
+
+% Comparison Test.
+\begin{lemma}{4.1.6}{Comparison Test}
+
+    Let $z_n \in \mathbb{C}$ be a sequence s.t. $|z_n| \le M_n$, for $M_n \ge 0$, for all $n \ge n_0$ for some $n_0 \in \mathbb{N}$, where $\sum_{j=0}^{\infty}M_j$ is convergent. Then $\sum_{j=0}^{\infty}z_j$ is convergent.
+
+\end{lemma}
+
+% Geometric Series.
+\begin{lemma}{4.1.7}{}
+
+    Let $c \in \mathbb{C}$. Then $\sum_{j=0}^{\infty}c^j$ is convergent if and only if $|c| < 1$.
+
+\end{lemma}
+
+% Ratio Test.
+\begin{lemma}{4.1.9}{Ratio Test}
+
+    Let $z_n \in \mathbb{C}$ be a sequence and suppose
+
+        \begin{align*}
+            \lim_{n \to \infty} \left| \frac{z_{n+1}}{z_n} \right| = L
+        \end{align*}
+
+    Then
+
+        \begin{enumerate}[(i)]
+            \setlength{\parskip}{0em}
+            \item if $L < 1$, the series $\sum_{j=0}^{\infty}z_j$ is convergent;
+            \item if $L > 1$, the series $\sum_{j=0}^{\infty}z_j$ is divergent;
+            \item if $L = 1$, we can conclude nothing.
+        \end{enumerate}
+
+\end{lemma}
+
+% Holomorphic Converges Pointwise to Non-Holomoprhic.
+\begin{example}{4.1.15}{}
+
+    Let $f_n(z) = \exp{(-nz^2)}$ (\emph{holomorphic}!), then $f_n \to f$ as $n \to \infty$ \emph{pointwise} where
+
+        \begin{align*}
+            f(x) =
+            \begin{cases}
+                1 & x = 0, \\
+                0 & x \neq 0.
+            \end{cases}
+        \end{align*}
+
+    is \emph{not} holomorphic.
+
+\end{example}
+
+% Continuous converge uniform to continuous.
+\begin{lemma}{4.1.17}{}
+    
+    Let $S \subseteq \mathbb{C}$ and suppose $f_n: S \to \mathbb{C}$, sequence of continuous functions, converge \emph{uniformly} to $f$. Then $f$ is continuous. 
+
+\end{lemma}
+
+% Weierstrass M-test for uniform convergence.
+\begin{lemma}{4.1.19}{Weierstrass M-test}
+
+    Let $S \subseteq \mathbb{C}$, $f_n: S \to \mathbb{C}$ a sequence of functions and $M_n \ge 0$ a sequence of non-negative numbers s.t. for all $z \in S$ and for all $n \ge n_0 \in \mathbb{N}$, $|f_n(z) \le M_n|$ and $\sum_{j=0}^{\infty} M_j$ converges. Then $\sum_{j=0}^{\infty} f_j(z)$ converges uniformly on S.
+
+\end{lemma}
+
+% Holomorphics converge uniformly to holomorphic.
+\begin{theorem}{4.1.23}{}
+
+    Let $D \subseteq \mathbb{C}$ be a \emph{simply-connected} domain, $f_n$ holomorphic on $D$ and converge uniformly to $f$. Then $f: D \to \mathbb{C}$ is holomorphic on $D$.
+
+\end{theorem}
+
+% Calculating Radius of Convergence via Limits.
+\begin{theorem}{4.2.4}
+
+    Let $\sum_{j=0}^{\infty} a_j (z - z_0)^j$ be a power series and suppose the sequence $\left| \frac{a_j}{a_{j+1}} \right|$ has a limit. Then the radius of convergence is equal to this limit.
+
+\end{theorem}
+
+% Common Taylor Series Expansions.
+\begin{exercise}{4.3.8}{}
+
+    The following Taylor series are centred at $0$:
+
+    \begin{align*}
+        \exp(z) &= \sum_{j=0}^{\infty} \frac{z^j}{j!} \\
+        \cos(z) &= \sum_{j-0}^{\infty} (-1)^j \frac{z^{2j}}{(2j)!} \\
+        \sin(z) &= \sum_{j-0}^{\infty} (-1)^j \frac{z^{2j + 1}}{(2j + 1)!}
+    \end{align*}
+
+\end{exercise}
+
+% Convergence and Coefficients of Laurent Series.
+\begin{theorem}{4.4.4}{Laurent Series}
+
+    Let $z_0 \in \mathbb{C}$, $0 \leq r < R \leq \infty$, $f$ holomorphic on $A_{r,R}(z_0)$. Then $f$ can be expressed as Laurent series centred at $z_0$, convergent on $A_{r,R}(z_0)$ and \emph{uniformly} convergent on $\overline{A}_{r_1,R_1}(z_0)$ for $r < r_1 \leq R_1 < R$. Moreover:
+
+        \begin{align*}
+            a_j = \frac{1}{2 \pi i} \int_{\Gamma} \frac{f(z)}{(z - z_0)^{j+1}} \,dz
+        \end{align*}
+
+\end{theorem}
+
+% Finite Order Zeros of Holomorphic Functions are Isolated.
+\begin{proposition}{4.5.4}{}
+
+    Let $z_0 \in \mathbb{C}$, $U \subseteq \mathbb{C}$ a neighbourhood of $z_0$, $f$ holomorphic on $U$ with zero of finite order $z_0$. Then $z_0$ is isolated.
+
+    \Hint Function with Zeros Trick, $g(z_0) \neq 0$ and continuity of $g$.
+
+\end{proposition}
+
+% Finitely Many Zeros are Isolated.
+\begin{corollary}{(Lecture)}{}
+
+    Let $f$ have finitely many zeros. Then all zeros are isolated.
+
+\end{corollary}
+
+% Zero for a Sequence Implies Zero on Disc.
+\begin{corollary}{4.5.5}{}
+
+    Let $z_0 \in \mathbb{C}$, $U \subseteq \mathbb{C}$ a neighbourhood of $z_0$, $f$ holomorphic on $U$ s.t. $f(z_n) = 0$ for sequence $z_n \in U$ s.t. $z_n \to z_0$ as $n \to \infty$. Then $\exists R > 0$ s.t. $\forall z \in D_R(z_0): f(z) = 0$.
+
+    \Hint Continuity of $f$ and contrapositive of Prop. 4.5.4.
+
+\end{corollary}
+
+% Isolated Zeros Become Isolated Singularities.
+\begin{corollary}{4.5.6}{}
+
+    Let $z_0 \in \mathbb{C}$ be singularity of rational function $f = P/Q$. Then $z_0$ is isolated.
+
+\end{corollary}
+
+% Removable Singularities Can Be (Re-)Defined.
+\begin{theorem}{4.5.8}{}
+
+    Let $z_0 \in \mathbb{C}$ be a removable singularity of $f$, holomorphic on $D_R'(z_0)$ for some $R > 0$. Then $f(z_0)$ can be (re-)defined s.t. $f$ is holomorphic on $z_0$.
+
+\end{theorem}
+
+\begin{lemma}{4.5.11}{}
+
+    Let $f,g$ be holomorphic at $z_0$, where $z_0$ is zero of order $m$ of $g$. Then
+
+        \begin{enumerate}[(i)]
+            \setlength{\parskip}{0em}
+            \item if $z_0$ is not zero of $f$, $f/g$ has pole of order $m$ at $z_0$;
+            \item if $z_0$ is zero of order $k$ of $f$, $f/g$ has pole of order $m - k$ at $z_0$ if $m > k$ and removable singularity otherwise.
+        \end{enumerate}
+
+    \Hint Function with Zeros Trick.
+
+\end{lemma}
+
+% Identity Theorem: Zero on a Disk Then Zero on Domain.
+\begin{theorem}{4.6.4}{Identity Theorem}
+
+    Let $D \subseteq \mathbb{C}$, $z_0 \in D$, $f$ holomorphic on $D$ s.t. $\forall z \in D_R(z_0): f(z) = 0$ for some $R > 0$. Then $f(z) = 0$ for all $z \in D$.
+
+\end{theorem}
+
+% If Holomorphic Functions Agree on Disc, They Agree On Domain.
+\begin{corollary}{4.6.5}{}
+
+    Let $D \subseteq \mathbb{C}$, $f,g$ holomorphic on $D$ s.t. $\forall z \in D_R(z_0): f(z) = g(z)$ for some $R > 0$. Then $f(z) = g(z)$ for all $z \in D$.
+
+\end{corollary}
+
+% If Function is Zero Along Sequence of Points It is Zero on Limit of Sequence.
+\begin{corollary}{4.6.7}{}
+
+    Let $D \subseteq \mathbb{C}$, $z_0 \in D$ and $f$ holomorphic on $D$ s.t. $f(z_n) = 0$ for a sequence of distinct $z_n \in D$ which converge to $z_0$. Then $f(z) = 0$ for all $z \in D$.
+
+\end{corollary}
+
+\begin{corollary}{4.6.8}{}
+
+    Let $D \subseteq \mathbb{C}$, $z_0 \in D$ and $f,g$ holomorphic on $D$ s.t. $f(z_n) = g(z_n)$ for a sequence of distinct $z_n \in D$ which converge to $z_0$. Then $f(z) = g(z)$ for all $z \in D$.
+
+\end{corollary}
+
+%% If Modulus of Function Tends to Zero Then Function Is Identically Zero.
+%\begin{question}{Ws.8, Q.2}
+%
+%    (a) Let $f$ be holomorphic on $\mathbb{C}$ s.t. $|f(z)| \to 0$ as $|z| \to \infty$. Then $f(z) = 0$ for all $z \in \mathbb{C}$.
+%
+%\end{question}
+%
+%% There are No Non-Constant Holomorphic Functions Periodic In Both Directions.
+%\begin{question}{Ws.8, Q.3}{}
+%
+%    Let $f$ be holomorphic on $\mathbb{C}$ s.t. it is periodic in real \emph{and} imaginary directions, i.e. $\exists a,b \in \mathbb{R}$, $a,b > 0$ s.t. $f(z) = f(z + a)$ and $f(z) = f(z + ib)$. Then $f$ is constant.
+%
+%\end{question}
+
+\begin{question}{Ws.10, Q.5}{}
+
+    Let $f$ be holomorphic on $D_r'(z_0)$ and $|f(z)| \leq M$ for all $z \in D_r'(z_0)$, for some $M > 0$. Then $f$ can be (re-)defined at $z_0$ to make $f$ holomorphic on $D_r(z_0)$.
+
+\end{question}
+
+%%%%%%%%%%%%%%%%%%%%
+% Residue Calculus %
+%%%%%%%%%%%%%%%%%%%%
+
+\section{Residue Calculus}
+
+% One Singularity Cauchy Residue Theorem.
+\begin{theorem}{5.1.1}{}
+
+    Let $z_0 \in \mathbb{C}$, $f$ holomorphic on $D_R'(z_0)$ for some $R > 0$ with $z_0$ being isolated singularity, $\Gamma$ in $D_R'(z_0)$ and $z_0 \in \Int\!{(\Gamma)}$. Then
+
+        \begin{align*}
+            \int_{\Gamma} f(z) \,dz = 2\pi i a_{-1}
+        \end{align*}
+
+    where $a_{-1}$ is coefficient from Laurent expansion.
+
+\end{theorem}
+
+% Removable Singularities Have No Residue.
+\begin{lemma}{5.1.4}{}
+
+    Let $z_0 \in \mathbb{C}$, $f$ holomorphic on $D_R'(z_0)$ for some $R > 0$, with \emph{removable} singularity $z_0$. Then $\Res\!{(f,z_0)} = 0$.
+
+\end{lemma}
+
+% Residue as Limit of Derivative.
+\begin{lemma}{5.1.5}{}
+
+    Let $z_0 \in \mathbb{C}$, $f$ holomorphic on $D_R'(z_0)$ for some $R > 0$, with pole of order $m$ at $z_0$. Then
+
+        \begin{align*}
+            \Res\!{(f,z_0)} = \lim_{z \to z_0} \textstyle \frac{1}{(m-1)!} \frac{d^{m-1}}{dz^{m-1}} [(z - z_0)^m f(z)].
+        \end{align*}
+
+    \Hint
+
+\end{lemma}
+
+% Residue using Numerator and Denominator.
+\begin{lemma}{5.1.7}{}
+
+    Let $z_0 \in \mathbb{C}$, g and h holomorphic on $D_R'(z_0)$ for some $R > 0$, s.t. $h$ has a \emph{simple} zero at $z_0$, while $g(z_0) \neq 0$. Then for $f = g/h$:
+
+        \begin{align*}
+            \Res\!{(f,z_0)} = \frac{g(z_0)}{h'(z_0)}.
+        \end{align*}
+
+\end{lemma}
+
+% Cauchy Residue Theorem.
+\begin{theorem}{5.1.11}{Cauchy Residue Theorem}
+
+    Let $f$ be holomorphic inside and on loop $\Gamma$ except for \emph{finitely} many isolated singularities $z_1,\hdots,z_k \in \Int\!{(\Gamma)}$. Then
+
+        \begin{align*}
+            \int_{\Gamma} f(z) \,dz = 2 \pi i \sum_{j=1}^k \Res\!{(f,z_j)}.
+        \end{align*}
+
+\end{theorem}
+
+% The Argument Principle
+\begin{theorem}{5.2.5}{The Argument Principle}
+
+    Let $\Gamma \subseteq \mathbb{C}$ be a loop, $f$ \emph{non-zero on} $\Gamma$, holomorphic inside and on $\Gamma$, except for \emph{finitely} many poles in $\Gamma$ (meromorphic). Then
+
+        \begin{align*}
+            &\frac{1}{2\pi i} \int_{\Gamma} \frac{f'(z)}{f(z)} \,dz = \\
+            &\sum_{z_0 \in \Int\!{(\Gamma)}} \mathrm{order}(z_0) - \sum_{z_{\infty} \in \Int\!{(\Gamma)}} \mathrm{order}(z_{\infty})
+        \end{align*}
+
+    where $z_0$ is a zero of $f$ and $z_{\infty}$ is a pole of $f$.
+
+\end{theorem}
+
+% Counting Zeros with Order of Holomorphic Functions.
+\begin{corollary}{5.2.6}{}
+
+    Let $\Gamma \subseteq \mathbb{C}$ be a loop, $f$ \emph{non-zero on} $\Gamma$, holomorphic inside and on $\Gamma$. Then
+
+        \begin{align*}
+            \frac{1}{2\pi i} \int_{\Gamma} \frac{f'(z)}{f(z)} \,dz = \sum_{z_0 \in \Int\!{(\Gamma)}} \mathrm{order}(z_0)
+        \end{align*}
+
+    where $z_0$ is a zero of $f$.
+
+\end{corollary}
+
+% Rouche's Theorem: Equal Number of Zeros.
+\begin{theorem}{5.2.7}{Rouch\'e's Theorem}
+
+    Let $\Gamma$ be a loop, $f,g$ holomorphic inside and on $\Gamma$ s.t. $\forall z \in \Gamma: |f(z) - g(z)| < |f(z)|$. Then 
+
+        \begin{align*}
+            \sum_{z_0 \in \Int\!{(\Gamma)}} \mathrm{order}(z_0) = \sum_{z_0 \in \Int\!{(\Gamma)}} \mathrm{order}(w_0)
+        \end{align*}
+
+    where $z_0$ is zero of $f$ and $w_0$ is zero of $g$. N.B.: Number and order of zeros can be different, only total is equal.
+
+\end{theorem}
+
+% Open Mapping Theorem.
+\begin{theorem}{5.2.16}{Open Mapping Theorem}
+
+    Let $D \subseteq \mathbb{C}$ be a domain and suppose $f: D \to \mathbb{C}$ is non-constant and holomorphic on $D$. Then $f(D)$ is an open subset of $\mathbb{C}$.
+
+\end{theorem}
+
+% Part of Holomorphic Function Constant, Function is Constant.
+\begin{corollary}{5.2.18}{}
+
+    Let $D \subseteq \mathbb{C}$ be a domain, $f$ holomorphic on $D$ s.t. \emph{any} of the values $\Re\!{(f(z))}$, $\Im\!{(f(z))}$, $|f(z)|$, or $\mathrm{Arg}(f(z))$ is constant. Then $f$ is constant.
+
+\end{corollary}
+
+%
+\begin{exercise}{5.2.19}{Schwarz's Lemma}
+
+    Let $f$ be holomorphic on $D_1(0)$ s.t. $f(0) = 0$ and $\forall z \in D_1(0): |f(z)| \leq 1$. Then $|f(z)| \leq |z|$.
+
+\end{exercise}
+
+% Rewriting Cosine and Sine on Unit Circle as Complex Variable.
+\begin{remark}{(unknown)}{}
+
+    Let $z = e^{i \theta}$, i.e. $z \in D_1(0)$, then
+
+        \begin{align*}
+            \cos\theta &= \Re(z) = \frac{1}{2}\left( z + \frac{1}{z} \right) \\
+            \sin\theta &= \Im(z) = \frac{1}{2i}\left( z - \frac{1}{z} \right)
+        \end{align*}
+
+\end{remark}
+
+\begin{remark}{(Trigonometric Integrals)}{}
+
+    Let $\Gamma = C_1(0)$, parametrized by $\gamma: [0,2\pi] \to \mathbb{C};$ $\theta \mapsto \exp(i\theta)$ and let $R(\cos\theta,\sin\theta)$ be a rational function of cosines and sines, then
+
+        \begin{align*}
+            &\int\limits_0^{2\pi} R(\cos\theta,\sin\theta) \,d\theta = \\
+            &\int_{\Gamma} \frac{1}{iz} R\left(\frac{z + \frac{1}{z}}{2},\frac{z - \frac{1}{z}}{2i}\right) \,dz
+        \end{align*}
+
+    i.e. trigonometric integral can be evaluated as contour integral on unit circle by replacing $\cos\theta$ with $\frac{z + 1/z}{2}$ and $\sin\theta$ with $\frac{z - 1/z}{2i}$ and multiplying integrand by $\frac{1}{iz}$.
+
+\end{remark}
+
+% Criterion For Vanishing Contribution of Semicircular Contour Integrals.
+\begin{lemma}{5.4.6}{Jordan Lemma}
+
+    Let $P,Q$ be polynomials s.t. $\deg{(Q)} \geq \deg{(P)} + 1$ and $a \in \mathbb{R} \setminus \{0\}$. Then
+
+        \begin{align*}
+            \lim_{\rho \to \infty} \int_{C_{\rho}^+} \exp(iaz)\frac{P(z)}{Q(z)} \,dz = 0, \quad \textrm{if}\ a>0; \\
+            \lim_{\rho \to \infty} \int_{C_{\rho}^-} \exp(iaz)\frac{P(z)}{Q(z)} \,dz = 0, \quad \textrm{if}\ a<0
+        \end{align*}
+
+    where $C_{\rho}^+$, $C_{\rho}^-$ are semicircular arcs from $-\rho$ to $\rho$ in upper/lower half-plane.
+
+\end{lemma}
+
+% Integrals Along Arcs Around Singularities.
+\begin{lemma}{5.5.3}{}
+
+    Let $D \subseteq \mathbb{C}$ be a domain, $c \in D$, $f$ holomorphic on $D$ except at possibly finitely many singularities with \emph{simple} pole at $c$. Let $S_r$ be circular arc parametrized by $\gamma(\theta) = c + r \exp(i\theta)$ for $\theta \in [\theta_0,\theta_1]$ for some $0 \leq \theta_0 < \theta_1 \leq 2\pi$. Then
+
+        \begin{align*}
+            \lim_{r \to 0} \int_{S_r} f(z) \,dz = i(\theta_1 - \theta_0)\mathrm{Res}(f,c)
+        \end{align*}
+
+\end{lemma}
+
+%
+\begin{lemma}{5.6.4}{}
+
+    Let $0 \leq k \leq n$ be non-negative integers, let $\binom{n}{k}$ be the usual binomial coefficient and $\Gamma$ a loop with $0$ in interior. Then
+
+        \begin{align*}
+            \binom{n}{k} = \frac{1}{2\pi i} \int_{\Gamma} \frac{(1+z)^n}{z^{k+1}} \, dz
+        \end{align*}
+
+\end{lemma}
+
+%%%%%%%%%%%%%%%%%
+% Miscellaneous %
+%%%%%%%%%%%%%%%%%
+
+\section{Miscellaneous}
+
+\begin{example}{(Circle Parametrization)}{}
+
+    Circle $C_r(z_0)$, $z_0 \in \mathbb{C}, r > 0$ can be parametrized by $\gamma: [0,2\pi] \to \mathbb{C}; t \mapsto z_0 + r \exp\!{(it)}$.
+
+\end{example}
+
+% Common Mistakes with Contour Integration.
+\begin{remark}{(Contour Integral Checklist)}{}
+
+    \begin{itemize}
+        \setlength{\parskip}{0em}
+        \renewcommand{\labelitemi}{\scriptsize$\square$}
+        \item Accounted for orientation of contour?
+        \item Accounted for $\frac{n!}{2\pi i}$ factor in (Generalized) Cauchy Integral Formula?
+    \end{itemize}
+
+\end{remark}
+
+% Classifying Singularities.
+\begin{remark}{(Classifying Singularities)}{}
+
+    \begin{itemize}
+        \setlength{\parskip}{0em}
+        \renewcommand{\labelitemi}{\scriptsize$\square$}
+        \item Isolated or not?
+        \item If isolated, what order? (Lemma 4.5.11)
+    \end{itemize}
+
+\end{remark}
+
+\begin{remark}{(Function with Zeros Trick)}{}
+
+    Let $f$ be holomorphic with $z_0$, zero of order $m$. Then
+
+        \begin{align*}
+            f(z) = (z - z_0)^m g(z)
+        \end{align*}
+
+    where $g(z) = \sum_{j=0}^{\infty} \frac{f^{(j + m)}(z_0)}{(j + m)!} (z - z_0)^j$, $g(z_0) \neq 0$.
+
+\end{remark}
+
+\begin{remark}{(Function with Poles Trick)}{}
+
+    Let $f$ be holomorphic except at $z_0$, pole of order $k$. Then
+
+        \begin{align*}
+            f(z) = (z - z_0)^{-k} H(z)
+        \end{align*}
+
+    where $H(z) = \sum_{j=0}^{\infty} a_{j-k} (z - z_0)^j$, \emph{holomorphic}.
+
+\end{remark}
+
+%%%%%%%%%%%%%%%
+% Definitions %
+%%%%%%%%%%%%%%%
+
+\section{Definitions}
+
+% Neighbourhood of a Point.
+\begin{definition}{1.2.2}
+
+    A \emph{neighbourhood} of $z_0 \in \mathbb{C}$ is an open set containing $z_0$.
+
+\end{definition}
+
+% Functions are Continuous if Open Sets Have Open Preimages.
+\begin{lemma}{1.3.8}{}
+
+    Let $f: \mathbb{C} \to \mathbb{C}$. The $f$ is continuous $\Leftrightarrow$ the preimage $f^{-1}(U)$ is open for all open $U \subseteq \mathbb{C}$.
+
+\end{lemma}
+
+% Harmonic Function.
+\begin{definition}{1.4.12}
+
+    Let $h: \mathbb{R} \to \mathbb{R}$. Then $h$ is \emph{harmonic} if it satisfies for all $(x,y) \in \mathbb{R}^2$ Laplace's equation:
+
+        \begin{align*}
+            \frac{\partial^2 h}{\partial x^2}(x,y) + \frac{\partial^2 h}{\partial y^2} = 0.
+        \end{align*}
+
+\end{definition}
+
+% Harmonic Conjugate.
+\begin{definition}{1.4.14}{}
+
+    Let $U \subseteq \mathbb{R}^2$ be open, $u: U \to \mathbb{R}$ harmonic. The function $v: U \to \mathbb{R}$ is the \emph{harmonic conjugate of $u$} if $f = u + iv$ is holomorphic on $U$.
+
+\end{definition}
+
+% Complex Cosine and Sine Functions.
+\begin{definition}{1.6.4}{}
+
+    \begin{align*}
+        &\cos(z) \coloneqq \frac{\exp(iz) + \exp(-iz)}{2}, \\
+        &\sin(z) \coloneqq \frac{\exp(iz) - \exp(-iz)}{2i}
+    \end{align*}
+
+\end{definition}
+
+% Usual Trigonometric Functions.
+\begin{remark}{(Trigonometric Functions)}{}
+
+    \begin{align*}
+        &\tan \coloneqq \frac{\sin}{\cos},\quad \cot \coloneqq \frac{1}{\tan}, \\ &\sec \coloneqq \frac{1}{\cos}, \quad \csc \coloneqq \frac{1}{\sin}
+    \end{align*}
+
+\end{remark}
+
+% Complex Hyperbolic Functions.
+\begin{definition}{1.6.9}{}
+
+    \begin{align*}
+        &\cosh(z) \coloneqq \frac{\exp(z) + \exp(-z)}{2}, \\
+        &\sinh(z) \coloneqq \frac{\exp(z) - \exp(-z)}{2}
+    \end{align*}
+
+\end{definition}
+
+% Branch Cut.
+\begin{definition}{1.7.6}{}
+
+    A \emph{branch cut} $L$ is a subset of complex plane removed s.t. multivalued function can be defined holomorphic on $\mathbb{C} \setminus L$. An endpoint of a branch cut is a \emph{branch point}.
+
+    The set $L_{z_0,\phi} = \{z \in \mathbb{C}: z = z_0 + re^{i\pi}, r \geq 0\}$ denotes a \emph{half-line}.
+
+    The set $D_{z_0,\phi} = \mathbb{C} \setminus L_{z_0,\phi}$ denotes the cut plane with branch point $z_0$ and along angle line at angle $\phi$.
+
+\end{definition}
+
+% Branch of Argument Function.
+\begin{definition}{1.7.8}{}
+
+    Let $\phi \in \mathbb{R}$. We define the branch $\Arg_{\phi}(z)$ of the argument function s.t. $\phi < \Arg_{\phi}(z) \leq \phi + 2\pi$. This defines a branch of logarithm: $\Log_{\phi}(z) = \ln|z| + i\Arg_{\phi}(z)$. N.B.: The \emph{principal branch} is when $\phi = -\pi$.
+
+\end{definition}
+
+% Complex Power.
+\begin{definition}{1.8.1}{}
+
+    Let $\alpha, z \in \mathbb{C}$, $z \neq 0$. Then we define the \emph{$\alpha$-power of $z$} by $z^{\alpha} = \{ \exp(\alpha w): w \in \log(z) \}$.
+
+\end{definition}
+
+% Roots of Unity.
+\begin{definition}{1.8.4}{}
+
+    Let $q \in \mathbb{N}$, then the $q$ values:
+
+        \begin{align*}
+            1^{1/q} = \{ 1, \omega, \omega^2, \hdots, \omega^{q-1} \}
+        \end{align*}
+
+    where $\omega \coloneqq \exp\!{(i2\pi / q)}$, are the $q$ roots of unity.
+\end{definition}
+
+% Principal Branch of Power Function.
+\begin{definition}{1.8.7}{}
+
+    The principal branch of logarithm defines the principal branch of $z^{\alpha}$ by $z^{\alpha} = \exp(\alpha \Log(z))$.
+
+\end{definition}
+
+% Conformal Map.
+\begin{definition}{2.1.2}{}
+
+    Let $U \subseteq \mathbb{C}$ and $f: U \to \mathbb{C}$. $f$ is \emph{conformal} if $f$ preserves angles.
+
+\end{definition}
+
+% Möbius Transformation.
+\begin{definition}{2.2.1}
+
+    A \emph{Möbius transformation} is a function of form
+
+        \begin{align*}
+            f(z) = \frac{az + b}{cz + d}
+        \end{align*}
+
+    where $a,b,c,d \in \mathbb{C}$ and $ad \neq bc$.
+
+\end{definition}
+
+% Extended Complex Plane.
+\begin{definition}{2.3.1}{}
+
+    The \emph{extended complex plane} is the set $\tilde{\mathbb{C}} = \mathbb{C} \cup \{\infty\}$. where for $a \in \mathbb{C}$ and $b \in \mathbb{C} \setminus \{0\}$:
+
+        \begin{align*}
+            a + \infty = \infty, \quad b \cdot \infty = \infty, \quad \frac{b}{0} = \infty, \quad \frac{b}{\infty} = 0
+        \end{align*}
+
+    For $f(z) = \frac{az + b}{cz + d}$ we define $f(-d/c) = \infty$ and $f(\infty) = a/c$.
+
+\end{definition}
+
+% Fundamental Building Blocks of Möbius Transformations.
+\begin{definition}{2.4.1}{}
+
+    \begin{enumerate}[(i)]
+        \item \emph{Translation:} $f(z) = z + b$, $b \in \mathbb{C}$ with matrix $\bigl( \begin{smallmatrix}1 & b\\ 0 & 1\end{smallmatrix}\bigr)$;
+        \item \emph{Rotation:} $f(z) = az$, $a = e^{i \theta} \in \mathbb{C}$ s.t. $|a| = 1$ with matrix $\Bigl( \begin{smallmatrix}e^{i\theta / 2} & 0\\ 0 & e^{i \theta / 2}\end{smallmatrix}\Bigr)$;
+        \item \emph{Dilation:} $f(z) = rz$, where $r > 0$ with matrix $\Bigl( \begin{smallmatrix} \sqrt{r} & 0\\ 0 & 1/\sqrt{r}\end{smallmatrix}\Bigr)$;
+        \item \emph{Inversion:} $f(z) = 1/z$ with matrix $\bigl( \begin{smallmatrix}0 & i\\ i & 0\end{smallmatrix}\bigr)$.
+    \end{enumerate}
+
+    A Möbius transformation \emph{fixes the point at infinity} if $f(\infty) = \infty$. Only inversion does \emph{not} fix the point at infinity.
+
+\end{definition}
+
+% Cross-Ratio.
+\begin{definition}{2.5.5}{}
+
+    Let $z_1,z_2,z_3,z_4 \in \tilde{\mathbb{C}}$ be \emph{distinct} points. The \emph{cross-ratio} $[z_1,z_2,z_3,z_4]$ is the image $z_1$ under the Möbius transformation sending $z_2,z_3,z_4$ to $(1,0,\infty)$.
+
+\end{definition}
+
+% Arclength.
+\begin{definition}{3.2.7}{}
+
+    Let $\Gamma \subseteq \mathbb{C}$ be a regular curve. We define \emph{arclength} $\ell(\Gamma)$ by:
+
+        \begin{align*}
+            \ell(\Gamma) \coloneqq \int_{t_0}^{t_1} |\gamma'(t)| \,dt = \int_{t_0}^{t_1} \sqrt{x'(t)^2 + y'(t)^2} \,dt
+        \end{align*}
+
+\end{definition}
+
+% Domain.
+\begin{definition}{3.3.1}{}
+
+    Let $D \in \mathbb{C}$. We say $D$ is a \emph{domain} if $D$ is \emph{open} and any two points in $D$ can be connected by a contour entirely in $D$.
+
+\end{definition}
+
+% Simple Contour.
+\begin{definition}{3.4.1}{}
+
+    Let $\Gamma \subseteq \mathbb{C}$ be a contour. Then $\Gamma$ is \emph{simple} if it has no self-intersections.
+
+\end{definition}
+
+% Simply-Connected Domain.
+\begin{definition}{3.4.6}{}
+
+    Let $D$ be a domain. Then $D$ is \emph{simply-connected} if for all loops $\Gamma \in D$ we have $\Int\!{(\Gamma)} \subseteq D$ .
+
+\end{definition}
+
+% Taylor Series.
+\begin{definition}{4.3.1}{}
+
+    Let $z_0 \in \mathbb{C}$ and $f$ holomorphic at $z_0$. The \emph{Taylor series} of $f$ \emph{centred at $z_0$} is:
+
+        \begin{align*}
+            \sum_{j=0}^{\infty} \frac{f^{(j)}(z_0)}{j!} (z - z_0)^j
+        \end{align*}
+
+\end{definition}
+
+% Laurent Series.
+\begin{definition}{}{}
+
+    Let $z_0 \in \mathbb{C}$. A \emph{Laurent series} centred at $z_0$ is a series of the form:
+
+        \begin{align*}
+            \sum_{j=-\infty}^{\infty} a_j (z - z_0)^j
+        \end{align*}
+
+\end{definition}
+
+% Singularity and Isolated Singularity.
+\begin{definition}{4.5.1}{}
+
+    Let $D \subseteq \mathbb{C}$ be a domain, $f: D \to \mathbb{C}$, $z_0 \in \mathbb{C}$. We say $z_0$ is a \emph{singularity} if $f$ is \emph{not} holomorphic at $z_0$.
+
+    Singularity $z_0$ is \emph{isolated}, if $\exists R > 0$ s.t. $f$ is holomorphic on $D_R'(z_0)$.
+
+\end{definition}
+
+% Zero and Isolated Zero.
+\begin{definition}{4.5.3}{}
+
+    Let $z_0 \in \mathbb{C}, U \subseteq \mathbb{C}$ be a neighbourhood of $z_0$, $f$ holomorphic on $U$. Then $z_0$ is a \emph{zero} of $f$ if $f(z_0) = 0$. 
+
+    Zero $z_0$ is \emph{zero of finite order} if $\exists m \in \mathbb{N}$ s.t.
+
+        \begin{align*}
+            f(z_0) = f'(z_0) = \hdots = f^{(m-1)}(z_0) = 0
+        \end{align*}
+
+    but $f^{(m)}(z_0) \neq 0$.
+
+        Singularity $z_0$ is \emph{isolated}, if $\exists R > 0$ s.t. $f(z) \neq 0$ for $z_0 \in D_R'(z_0)$.
+
+\end{definition}
+
+\begin{definition}{4.5.7}{}
+
+    Let $z_0 \in \mathbb{C}$ be an isolated singularity of $f$, holomorphic on $D_R'(z_0)$ for some $R > 0$. Then $f(z) = \sum_{j=-\infty}^{\infty} a_j (z - z_0)^j$ on $A_{0,R}(z_0)$ (Laurent Series. If
+
+        \begin{enumerate}[(i)]
+            \setlength{\parskip}{0em}
+            \item $\forall j < 0: a_j = 0$, then $z_0$ is \emph{removable};
+            \item $\forall j < -m: a_j = 0$ for some $m \in \mathbb{N}$ and $a_{-m} \neq 0$, then $z_0$ is \emph{pole of order m};
+            \item $a_j \neq 0$ for infinitely many $j$, $z_0$ is \emph{essential}.
+        \end{enumerate}
+
+\end{definition}
+
+% Analytic Continuation.
+\begin{definition}{4.6.1}{}
+
+    Let $D \subseteq \tilde{D} \subseteq \mathbb{C}$ be domains, $f: D \to \mathbb{C}$ holomorphic. $F: \tilde{D} \to \mathbb{C}$ is an \emph{analytic continuation} of $f$ if $\forall z \in D: F(z) = f(z)$.
+
+\end{definition}
+
+\begin{definition}{5.1.2}{}
+
+    Let $z_0 \in \mathbb{C}$ and $f$ holomorphic on $D_R'(z_0)$ for some $R > 0$, with \emph{isolated} singularity $z_0$. Then \emph{residue of $f$ at $z_0$} is $\Res\!{(f,z_0)} = a_{-1}$, where $a_{-1}$ is from Laurent Expansion of $f$.
+
+\end{definition}
+
+\begin{definition}{5.2.1}{}
+    
+    Let $D \subseteq \mathbb{C}$ be a domain. Function $f$ is \emph{meromorphic} on $D$ if for all $z \in D$ either $f$ has a pole of finite order or $f$ is holomorphic at $z$.
+
+\end{definition}
+
+\end{multicols}
+
+\end{document}
